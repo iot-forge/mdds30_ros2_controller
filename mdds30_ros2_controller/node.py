@@ -80,8 +80,18 @@ class MDDS30Controller(Node):
         ang_scale = float(self.get_parameter('angular_scale').value)
 
         # Convert to percentage commands [-100..100]
-        left = self._saturate_pct((msg.linear.x * lin_scale) - (msg.angular.z * ang_scale) * 100.0)
-        right = self._saturate_pct((msg.linear.x * lin_scale) + (msg.angular.z * ang_scale) * 100.0)
+        # Scale the combined linear and angular components before converting
+        # to the motor duty-cycle percentage. The previous implementation
+        # applied the 100x scaling factor only to the angular component,
+        # which produced asymmetric behaviour when `linear.x` was not already
+        # expressed in percent. Instead, both components are summed first and
+        # the result scaled once.
+        left = self._saturate_pct(
+            (msg.linear.x * lin_scale - msg.angular.z * ang_scale) * 100.0
+        )
+        right = self._saturate_pct(
+            (msg.linear.x * lin_scale + msg.angular.z * ang_scale) * 100.0
+        )
 
         # Cache & send
         self._left_pct = int(round(left))
