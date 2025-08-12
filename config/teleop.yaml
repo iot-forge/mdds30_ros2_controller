@@ -1,0 +1,20 @@
+teleop_twist_joy_node:
+  ros__parameters:
+    # Hold this button to enable (A on Xbox, Cross on PS)
+    enable_button: 0
+    require_enable_button: true
+
+    # Optional turbo (RB on Xbox, R1 on PS)
+    enable_turbo_button: 5
+
+    # Axes: left stick
+    axis_linear.x: 1      # up/down on left stick
+    axis_angular.z: 0     # left/right on left stick
+
+    # Normal speeds
+    scale_linear.x: 0.6
+    scale_angular.z: 0.8
+
+    # Turbo speeds (while holding turbo button)
+    scale_linear_turbo.x: 1.0
+    scale_angular_turbo.z: 1.2
