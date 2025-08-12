@@ -1,0 +1,4 @@
+mdds30_controller:
+  ros__parameters:
+    port: "/dev/serial0"
+    baud: 9600
