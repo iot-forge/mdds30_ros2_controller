@@ -80,8 +80,12 @@ class MDDS30Controller(Node):
         ang_scale = float(self.get_parameter('angular_scale').value)
 
         # Convert to percentage commands [-100..100]
-        left = self._saturate_pct((msg.linear.x * lin_scale) - (msg.angular.z * ang_scale) * 100.0)
-        right = self._saturate_pct((msg.linear.x * lin_scale) + (msg.angular.z * ang_scale) * 100.0)
+        left = self._saturate_pct(
+            (msg.linear.x * lin_scale - msg.angular.z * ang_scale) * 100.0
+        )
+        right = self._saturate_pct(
+            (msg.linear.x * lin_scale + msg.angular.z * ang_scale) * 100.0
+        )
 
         # Cache & send
         self._left_pct = int(round(left))
